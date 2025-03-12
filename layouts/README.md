@@ -1,6 +1,6 @@
 # Attract-Mode Plus v3.0.2
 # ${\color{red}HeyChromey\ Main\ Menu\ Theme}$
-![image](layouts/HeyChromey_Main_Menu_Theme.png)
+![image](HeyChromey_Main_Menu_Theme.png)
 
 主題素材提取自 [RetroHursty69](https://github.com/RetroHursty69) 為 EmulationStation 所製作的主題，當初看到後覺得很適合拿來作為主選單及平台系統選單，於是便將它移植至 Attract-Mode 來使用。
 
