@@ -94,3 +94,6 @@ Platforms <- {
 	Multimedia = ["多媒體", "系統"]
 }
 ```
+
+
+[![image](https://img.youtube.com/vi/LLE53MMjNOs/0.jpg)](https://www.youtube.com/watch?v=LLE53MMjNOs)
