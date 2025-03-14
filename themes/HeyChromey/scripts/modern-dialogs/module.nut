@@ -30,6 +30,7 @@ class ModernDialogs
 	key_filters_menu = "filters_menu"
 	key_add_tags = "add_tags"
 	key_exit = "exit"
+	key_back = "back"
 	key_default = "default"
 	key_custom2 = "custom2"
 	pressed_key = null
@@ -65,6 +66,7 @@ class ModernDialogs
 	filters_favourite = "My favourites"
 	filters_current_gameregion = "全部"
 	filters_current_gamecategory = "全部遊戲"
+	infavourites = false
 
 	soundMenuSelect = null
 	soundMenuPress = null
@@ -162,16 +164,25 @@ class ModernDialogs
 				gamecategorymenu();
 				break;
 			case 2:
-				if (fe.filters[fe.filters.len() - 1].size > 0)
+				if (fe.filters.len() > 0)
 				{
-					local current_displays = fe.displays[fe.list.display_index].name;
-					foreach(idx, display in fe.displays )
+					local idx = 0;
+					foreach (filter in fe.filters)
 					{
-						if (display.name ==  current_displays + "_Favorites")
+						if (filter.name == "我的最愛" || filter.name == "Favourites")
 						{
-							fe.set_display(idx, true);
+							if (filter.size > 0)
+							{
+								infavourites = true;
+								fe.list.filter_index = idx;
+							}
+							else
+							{
+								while( !fe.overlay.splash_message( "我的最愛裡並無遊戲\n\n請按取消鍵返回" )){};
+							}
 							break;
 						}
+						idx+=1;
 					}
 				}
 				else
@@ -182,7 +193,7 @@ class ModernDialogs
 			default:
 				break;
 		}
-		pressed_key = key_filters_menu
+		pressed_key = key_default
 	}
 	
 	function gameregionmenu()
@@ -375,8 +386,7 @@ function sound_transition( ttype, var, ttime )
 
 			case key_filters_menu:
 				if (fe.list.display_index == -1) return true
-				local display_name = fe.displays[fe.list.display_index].name;
-				if (enable_filtersmenu && display_name.find("_Favorites") == null) {
+				if (enable_filtersmenu) {
 					pressed_key = key_filters_menu
 					filtersmenu()
 				}
@@ -389,6 +399,15 @@ function sound_transition( ttype, var, ttime )
 				} else {
 					return true
 				}
+
+			case key_back:
+				if (fe.list.filter_index != 0 && infavourites)
+				{
+					infavourites = false;
+					fe.list.filter_index = 0;
+					return true
+				}
+				return false
 
 			case key_exit:
 				pressed_key = key_exit
