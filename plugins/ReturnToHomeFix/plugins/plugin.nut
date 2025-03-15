@@ -25,6 +25,9 @@ class ReturnToHomeFix
 		if (_my_config[ "exclude_layouts" ].len() > 0)
 			exclude_layouts = split(_my_config[ "exclude_layouts" ], ";");
 		
+		if (!fe.nv.rawin("ReturnToHome")) fe.nv["ReturnToHome"] <- false;
+		if (!fe.nv.rawin("LastSubMenu")) fe.nv["LastSubMenu"] <- -1;
+		
 		fe.add_signal_handler(this, "on_signal");
 		fe.add_transition_callback(this, "transition");
 	}
@@ -38,7 +41,7 @@ class ReturnToHomeFix
 				{
 					return false;
 				}
-								
+				
 				if (fe.nv["ReturnToHome"])
 				{
 					fe.nv["ReturnToHome"] <- false;
