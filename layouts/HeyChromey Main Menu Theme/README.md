@@ -9,7 +9,7 @@
 ## 安裝及設定:
 1. 將 [HeyChromey.Main.Menu.Theme_Build_20250315.zip](https://github.com/KenLuoTW/Attract-Mode/releases/download/v1.0.0-1/HeyChromey.Main.Menu.Theme_Build_20250315.zip) 解壓至 Attract-Mode 資料夾
 2. 將 [HeyChromey.Main.Menu.Theme_Media.zip](https://github.com/KenLuoTW/Attract-Mode/releases/download/v1.0.0-1/HeyChromey.Main.Menu.Theme_Media.zip) 解壓至 Attract-Mode 資料夾
-3. 將 [common.zip](https://github.com/KenLuoTW/Attract-Mode/releases/download/v1.0.0-4/common.zip) 解壓至 Attract-Mode 資料夾
+3. 將 [common_Build_20250315.zip](https://github.com/KenLuoTW/Attract-Mode/releases/download/v1.0.0-4/common_Build_20250315.zip) 解壓至 Attract-Mode 資料夾
 4. 進入 Attract-Mode 設定，設定輸入控制 (鍵盤 / XBOX 手把建議設定)
    - 返回 (結束) : Esc 或 JoyX Button1
    - ↑ (上一個遊戲) : Up 或 JoyX Up
