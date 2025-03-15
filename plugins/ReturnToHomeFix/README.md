@@ -11,10 +11,10 @@
      - 遊戲選單 (系統下的遊戲清單選擇)
 
 不過 Attract-Mode 可以在第二層選單的 romlist 裡的 `Emulator` 欄位填入 `@`，這會直接讓你切換至以 `Name` 命名的顯示介面，例如下圖:
-![image](ReturnToHomeFix/ReturnToHomeFix_1.png)
+![image](ReturnToHomeFix_1.png)
 
 這個以 `Name` 命名的第三層顯示介面，須要將 `顯示在主選單` 關閉，才不會在主選單看到它。
-![image](ReturnToHomeFix/ReturnToHomeFix_2.png)
+![image](ReturnToHomeFix_2.png)
 
 此外掛主要就是修正使用這個方式所達成的三層選單，在第三層選單按下 `主選單熱鍵、 時不會正常返回主選單正確位置的問題。
 
