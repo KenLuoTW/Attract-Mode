@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////
 //
-// Attract-Mode Frontend - ReturnToHomeFix
+// Attract-Mode Frontend - ReturnToHomeFix (Build 20250315)
 // Code by KenLuoTW
 //
 //////////////////////////////////////////////////////////////
@@ -14,10 +14,10 @@ local my_dir = fe.script_dir;
 
 class ReturnToHomeFix
 {
-	_trigger = "displays_menu";
 	_my_config = null;
 	exclude_layouts = [];
-	returnhome = null;
+	key_displays_menu = "displays_menu";
+	key_back = "back";
 
 	constructor()
 	{
@@ -25,7 +25,6 @@ class ReturnToHomeFix
 		if (_my_config[ "exclude_layouts" ].len() > 0)
 			exclude_layouts = split(_my_config[ "exclude_layouts" ], ";");
 		
-		returnhome = false;
 		fe.add_signal_handler(this, "on_signal");
 		fe.add_transition_callback(this, "transition");
 	}
@@ -34,20 +33,24 @@ class ReturnToHomeFix
 	{
 		switch (signal)
 		{
-			case _trigger:
+			case key_displays_menu:
 				if (fe.list.display_index < 0 || fe.displays[fe.list.display_index].in_menu || exclude_layouts.find(fe.displays[fe.list.display_index].layout) != null)
 				{
 					return false;
 				}
+								
+				if (fe.nv["ReturnToHome"])
+				{
+					fe.nv["ReturnToHome"] <- false;
+					fe.set_display(fe.nv["LastSubMenu"]);
+					return true;
+				}
 				
-				returnhome = true;
-				SaveStatus(returnhome);
+				fe.nv["ReturnToHome"] <- true;
 				fe.signal("back");
 				return true;
-				break;
 			default:
 				return false;
-				break;
 			
 		}
 	}
@@ -56,48 +59,19 @@ class ReturnToHomeFix
 	{
 		if( ttype == Transition.ToNewList )
 		{
-			if (File_Exist(my_dir + "returnhome.opt"))
+			local idx=0;
+			if (fe.list.display_index >= 0 && fe.displays[fe.list.display_index].in_menu)
 			{
-				LoadStatus();
-				if (returnhome)
-				{
-					returnhome = false;
-					SaveStatus(returnhome);
-					fe.signal("displays_menu");
-				}
+				fe.nv["LastSubMenu"] <- fe.list.display_index;
+			}
+			
+			if (fe.nv["ReturnToHome"])
+			{
+				fe.nv["ReturnToHome"] <- false;
+				fe.signal("displays_menu");
 			}
 		}
 		return false;
-	}
-	
-	function LoadStatus(){
-		local f = ReadTextFile( my_dir + "returnhome.opt" );
-		while ( !f.eos() ) {
-			local l = f.read_line();
-			switch (l)
-			{
-				case "true":
-					returnhome = true;
-					break;
-				default:
-					returnhome = false;
-					break;
-			}
-		}
-	}
-
-	function SaveStatus(isReturn){
-		local f = file( my_dir + "returnhome.opt", "w" );
-		local line = isReturn.tostring() + "\n";
-		local b = blob( line.len() );
-		for (local i=0; i<line.len(); i++) b.writen( line[i], 'b' );
-		f.writeblob(b);
-	}
-	
-	function File_Exist(path)
-	{
-	try { file(path, "r" ); return true; }
-	catch( e ){ return false; }
 	}
 }
 
