@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-// HeyChromey System Menu v1.0
+// HeyChromey System Menu (Build 20250315)
 //
 // Design, Code by KenLuoTW
 //
@@ -466,6 +466,44 @@ if( my_config["wheel_pulse"] != "停用" )
 
 
 /////////////////////////////////////////////////////////////////////////////////
+// System games count
+/////////////////////////////////////////////////////////////////////////////////
+function get_system_count(index_offset)
+{
+	local plat = ""
+	local system = fe.game_info( Info.Name, index_offset );
+	local count = 0;
+	
+	foreach (plat, systems in fe.nv.GameCount)
+	{
+		foreach (key, value in systems)
+		{
+			if (key == system)
+			{
+				plat = key;
+				count = value;
+				break;
+			}
+		}
+	}
+
+	local suffix = "";
+	switch (plat)
+	{
+		case "多媒體":
+			suffix = " 系統";
+			break;
+		default:
+			suffix = " 遊戲";
+			break;
+	}
+
+	if (count > 0) return count + suffix;
+	return "";
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////
 // info bar
 /////////////////////////////////////////////////////////////////////////////////
 local default_font_size = flh*0.024;
@@ -516,17 +554,7 @@ joystick_start_text.align = Align.Left;
 joystick_start_text.charsize = default_font_size;
 joystick_start_text.outline = 3;
 
-count_infos <- {};
-local curr_count = 0;
-local curr_sys = fe.game_info( Info.Name, 0 );
-
-if (file_exist(FeConfigDirectory + "themes/HeyChromey/countstats/" + curr_sys + ".stats")) 
-{
-	count_infos = LoadStats(curr_sys);
-	curr_count = count_infos[curr_sys].cnt;
-}
-
-local gamescount = controllerinfo_surface.add_text(curr_count + " 遊戲", flx*0.586, y_gamescount, flw*0.7, flh*0.062);
+local gamescount = controllerinfo_surface.add_text(get_system_count(0), flx*0.586, y_gamescount, flw*0.7, flh*0.062);
 gamescount.align = Align.Left;
 gamescount.charsize = gamescount_font_size;
 gamescount.set_rgb(255, 255, 0);
@@ -538,22 +566,9 @@ function gamescount_transitions( ttype, var, ttime )
 	{
 		case Transition.ToNewList:
 		case Transition.ToNewSelection:
-			curr_sys = fe.game_info( Info.Name, var );
-			
-			if (file_exist(FeConfigDirectory + "themes/HeyChromey/countstats/" + curr_sys + ".stats"))
-			{
-				count_infos = LoadStats(curr_sys);
-				curr_count = count_infos[curr_sys].cnt.tointeger();
-				gamescount.set_rgb(255, 255, 0);
-			}
-			else
-			{
-				curr_count = 0;
-				gamescount.set_rgb(255, 0, 0);
-			}
+			gamescount.msg = get_system_count(var);
 			break;
 	}
-	gamescount.msg = curr_count + " 遊戲";
 	return false;
 }
 fe.add_transition_callback( "gamescount_transitions" );

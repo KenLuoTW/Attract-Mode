@@ -25,7 +25,6 @@ class infobar
 	favicon = null;
 	faviconframe = null;
 	itemcount = null;
-	curr_count = null;
 	joystick_lr_text = null;
 	joystick_ud_text = null;
 	joystick_a_text = null;
@@ -209,13 +208,6 @@ class infobar
 		joystick_start_text.align = Align.Left;
 		joystick_start_text.charsize = default_font_size;
 		joystick_start_text.outline = 3;
-		
-		curr_count = 0;
-		if (file_exist(FeConfigDirectory + "themes/HeyChromey/countstats/" + fe.game_info( Info.Title, 0 ) + ".stats"))
-		{
-			count_infos = LoadStats(fe.game_info( Info.Title, 0 ))
-			curr_count = count_infos[fe.game_info(Info.Title, 0)].cnt;
-		}
 		
 		local x_itemcount = flx*0.7;
 		itemcount = controllerinfo_surface.add_text("項目: [ListEntry] / [ListSize]", x_itemcount, fly*0.94, flw*0.3, flh*0.05);

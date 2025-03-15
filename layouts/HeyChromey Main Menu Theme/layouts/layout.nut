@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-// HeyChromey Main Menu v1.0
+// HeyChromey Main Menu (Build 20250315)
 //
 // Design, Code by KenLuoTW
 //
@@ -15,16 +15,6 @@ fe.do_nut( FeConfigDirectory + "themes/HeyChromey/scripts/filter-infos/module.nu
 local default_gameregion_type = "None";
 local default_gamecategory_type = "None";
 local default_gameart_dir = FeConfigDirectory + "menu-art";
-
-Platforms <- {
-	Arcade = ["街機平台", "遊戲", "CPS1", "CPS2", "CPS3", "MAME", "MODEL2", "MODEL3", "MVS", "NAOMI"],
-	Console = ["家用機平台", "遊戲", "Dreamcast", "FC", "FDS", "Genesis", "MD", "MDCD", "N64", "N64DD",
-		   "NeoGeo", "NeoGeoCD", "NES", "NGC", "PCE", "PCECD", "PCFX", "PS", "Saturn", "SEGA32X",
-		   "SEGACD", "SFC", "SNES", "SuperACan", "SuperGrafx", "TG16", "TGCD"],
-	Handheld = ["掌機平台", "遊戲", "GBA", "GG", "NDS", "PSP"],
-	Computer = ["電腦平台", "遊戲", "MS-DOS", "MSX", "MSX2", "Windows"],
-	Multimedia = ["多媒體", "系統"]
-}
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -412,40 +402,40 @@ if( my_config["wheel_pulse"] != "停用" )
 /////////////////////////////////////////////////////////////////////////////////
 // System games count
 /////////////////////////////////////////////////////////////////////////////////
-count_infos <- {};
-local curr_sys = fe.list.name;
-
 function get_platform_count(index_offset)
 {
-	local pname = fe.game_info( Info.Name, index_offset );
+	local plat = fe.game_info( Info.Name, index_offset );
 	local count = 0;
-	local plist = [];
 	
-	foreach (k,d in Platforms)
+	if (fe.nv.GameCount.rawin(plat))
 	{
-		if ( d.find(pname) != null)
+		if (fe.nv.GameCount[plat].len() > 0)
 		{
-			plist = d;
+			foreach (key, value in fe.nv.GameCount[plat])
+			{
+				count = count + value;
+			}
 		}
 	}
-	
-	local files = get_dir_lists(FeConfigDirectory + "themes/HeyChromey/countstats");
-	foreach (k,d in files)
+
+	local suffix = "";
+	switch (plat)
 	{
-		if (plist.find(k) != null && k.find("Favorites") == null)
-		{
-			count_infos = LoadStats(k);
-			count += count_infos[k].cnt;
-		}
+		case "多媒體":
+			suffix = " 系統";
+			break;
+		default:
+			suffix = " 遊戲";
+			break;
 	}
-	local suffix = (plist.len() > 1 ) ? " " + plist[1] : "";
+
 	if (count > 0) return count + suffix;
 	return "";
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////
-// add system title and controller tips 
+// info bar
 /////////////////////////////////////////////////////////////////////////////////
 local title_font_size = flh*0.048;
 local default_font_size = flh*0.024;

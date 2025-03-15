@@ -2,33 +2,18 @@ class Common
 {
 	constructor()
 	{
-		local path = FeConfigDirectory + "themes\\HeyChromey\\countstats"
-		if (!directory_exist(path)) mk_dir(path);
-	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////
-// Games Count
-///////////////////////////////////////////////////////////////////////////////////////
-
-function LoadStats(curr_sys){
-	local f = ReadTextFile( FeConfigDirectory + "themes/HeyChromey/countstats/", curr_sys + ".stats" );
-	local tabl = {};
-	while ( !f.eos() ) {
-		local l = split( f.read_line(), ";");
-		if( l.len() ) tabl[ l[0] ] <- {"cnt":l[1].tointeger()}
-	}
-	return tabl;
-}
-
-function SaveStats(tbl, curr_sys){ // update global systems stats
-	local f = file( FeConfigDirectory + "themes/HeyChromey/countstats/" + curr_sys + ".stats", "w" );
-	foreach(k,d in tbl){
-		local line = k + ";" + d.cnt + "\n";
-		local b = blob( line.len() );
-		for (local i=0; i<line.len(); i++) b.writen( line[i], 'b' );
-		f.writeblob(b);
+		if (!fe.nv.rawin("GameCount"))
+		{
+			fe.nv["GameCount"] <- {
+				"街機平台" : {},
+				"家用機平台" : {},
+				"掌機平台" : {},
+				"電腦平台" : {},
+				"遊戲合集" : {},
+				"多媒體" : {}
+			};
+		}
+		
 	}
 }
 
