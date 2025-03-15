@@ -57,4 +57,8 @@ if (fe.list.search_rule == "")
 }
 ```
 
+之後開啟 Attract-Mode 並切換到該遊戲主題設定畫面佈局，即可看到該選項，將其設定至適合的平台即可。
+![image](HeyChromey%20Main%20Menu%20Theme_1.png)
+
+
 [![image](https://img.youtube.com/vi/LLE53MMjNOs/0.jpg)](https://www.youtube.com/watch?v=LLE53MMjNOs)
